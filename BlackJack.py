@@ -164,18 +164,21 @@ def playHand(lShoe):
 
 
 
+if __name__=="__main__":
+    times=1
+    for game in range(1,times+1):
+        lShoe=shoe.copy()
+        print(f"Game {game} starts!!\nStand: 0\tHit: 1")
+        shuffling(lShoe)
+        countHands:int =0#?counts how many hands played per one game
+        while(len(lShoe)>78):
+            countHands+=1
+            print(f"Hand {countHands} starts!!!")
+            playHand(lShoe)
+        print(f"done {game}")
+        print(f"Win: {win}, Lose: {lose}, Tie: {tie}")
 
 
-times=1
-for game in range(1,times+1):
-    lShoe=shoe.copy()
-    print(f"Game {game} starts!!\nStand: 0\tHit: 1")
-    shuffling(lShoe)
-    countHands:int =0#?counts how many hands played per one game
-    while(len(lShoe)>78):
-        countHands+=1
-        print(f"Hand {countHands} starts!!!")
-        playHand(lShoe)
-    print(f"done {game}")
-    print(f"Win: {win}, Lose: {lose}, Tie: {tie}")
+
+
 
