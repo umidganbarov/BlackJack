@@ -1,10 +1,7 @@
 from random import shuffle
 from random import randint
 import random
-shoe = [10,2, 3, 4, 10, 5,  "ACE"     ,6, 7, 8, 10, 9, 10] * 4  * 6
-win=0
-lose=0
-tie=0
+
 
 
 def winMessage(player,dealer):
@@ -165,6 +162,10 @@ def playHand(lShoe):
 
 
 if __name__=="__main__":
+    shoe = [10,2, 3, 4, 10, 5,  "ACE"     ,6, 7, 8, 10, 9, 10] * 4  * 6
+    win=0
+    lose=0
+    tie=0
     times=1
     for game in range(1,times+1):
         lShoe=shoe.copy()
