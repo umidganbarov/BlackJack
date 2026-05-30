@@ -1,13 +1,9 @@
-# // It is used for non-user usage, simulation
 from random import shuffle
 from random import randint
 import random
-#Local files--------------------
 from randomresponse import response
-import BET
-#Local files--------------------
 import time
-
+import BET
 
 
 
@@ -104,16 +100,18 @@ def hitCase(player,dealer,lShoe,bet):
     return r
 
 def handSum(deck):
-    total=0
-    aces=0
+    total = 0
+    aces = 0
     for card in deck:
-        if card=="ACE":
-            aces+=1
-        else:total += card
+        if card == "ACE":
+            aces += 1
+        else:
+            total += card
     for _ in range(aces):
-        if total+11<= 21:
-            total+= 11
-        else:total+=1
+        if total + 11 <= 21:
+            total += 11
+        else:
+            total += 1
     return total
 
 
@@ -186,7 +184,7 @@ def askBetting():
         return strategy
     
 if __name__=="__main__":
-    start = time.perf_counter()
+    
     shoe = [10,2, 3, 4, 10, 5,  "ACE"     ,6, 7, 8, 10, 9, 10] * 4  * 6
 
 
@@ -195,6 +193,7 @@ if __name__=="__main__":
     tie=0
     balances=[]
     times=int(input("How many total shoes you want?"))
+    start = time.perf_counter()
     countHands:int =0
     for game in range(1,times+1):#! Game starts
 
