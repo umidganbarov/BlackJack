@@ -2,9 +2,12 @@
 from random import shuffle
 from random import randint
 import random
+#Local files--------------------
 from randomresponse import response
-import time
 import BET
+#Local files--------------------
+import time
+
 
 
 
@@ -101,18 +104,16 @@ def hitCase(player,dealer,lShoe,bet):
     return r
 
 def handSum(deck):
-    total = 0
-    aces = 0
+    total=0
+    aces=0
     for card in deck:
-        if card == "ACE":
-            aces += 1
-        else:
-            total += card
+        if card=="ACE":
+            aces+=1
+        else:total += card
     for _ in range(aces):
-        if total + 11 <= 21:
-            total += 11
-        else:
-            total += 1
+        if total+11<= 21:
+            total+= 11
+        else:total+=1
     return total
 
 
