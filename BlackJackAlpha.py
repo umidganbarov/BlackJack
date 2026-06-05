@@ -1,9 +1,9 @@
 from random import shuffle
 from random import randint
 import random
-from randomresponse import response
-import time
+import Responces
 import BET
+import time
 from statistics import median
 import CardCounting
 
@@ -13,27 +13,14 @@ def shuffling(lShoe):# shuffles fll deck|input: deck
     rng.shuffle(lShoe)
     rng.shuffle(lShoe)
     return lShoe 
-#def response():
-    #while True:
-        #try :
-            #x=int(input())
-            #if x in [0,1]:
-                #return x
-            #print("Only 0,1 accepted")
-        #except ValueError:
-            #print("Only digits of 0,1 are accepted")
-        
-
 def winBalance(balance,bet):
     return balance+bet
 def loseBalance(balance,bet):
     return balance-bet
-
 def enoghBalance(balance,bet):#-1 1 
     if bet>balance:
         return False
     return True
-
 def isBlackjack(deck):
     if handSum(deck)==21:
         return True
@@ -45,23 +32,23 @@ def compareDP(dealer,player):# return dealer0 player1 tie 2
 def isOver21(deck):
     if handSum(deck)>21:return True
     return False
-
-
 def stand(dealer,lShoe):
+    global ccount
     ldealer=dealer.copy()
-    
     while(handSum(ldealer)<17):# card draws till 16]
+        ccount+=askCounting(lShoe[0])
         ldealer.append(lShoe.pop(0))
          #delete drawn card from deck and draws card
     return ldealer
-
 def hit(player,lShoe):#gives player one card, deletes from lshoe
+    global ccount
+    ccount+=askCounting(lShoe[0])
     player.append(lShoe.pop(0))
     return player
 
 
 def standCase(player,dealer,lShoe,bet):
-    global lose ,win,tie,balance,lastHandWon
+    global lose ,win,tie,balance,lastHandWon,ccount
     dealer=stand(dealer,lShoe)
     if isBlackjack(dealer) and isBlackjack(player):
         
@@ -95,7 +82,7 @@ def standCase(player,dealer,lShoe,bet):
         return None
     
 def hitCase(player,dealer,lShoe,bet):
-    global lose ,win,tie,balance,lastHandWon
+    global lose ,win,tie,balance,lastHandWon,ccount
     player=hit(player,lShoe)
     if isBlackjack(player):
         win+=1
@@ -109,22 +96,18 @@ def hitCase(player,dealer,lShoe,bet):
         return -1
 
 
-    r=response()
+    r=askResponce(player,dealer)
     return r
 
 def handSum(deck):
-    total = 0
-    aces = 0
+    total,aces = 0,0
     for card in deck:
         if card == "ACE":
             aces += 1
-        else:
-            total += card
+        else:total += card
     for _ in range(aces):
-        if total + 11 <= 21:
-            total += 11
-        else:
-            total += 1
+        if total + 11 <= 21:total+= 11
+        else:total += 1
     return total
 
 
@@ -132,7 +115,7 @@ def handSum(deck):
 
 
 def playHand(lShoe):#! Each hand 
-    global lose,win,tie,balance,lastHandWon,lastHandBet, ccount
+    global lose,win,tie,balance,lastHandWon,lastHandBet,ccount
     if balance<=0:return -1
     bet=askBetting()
     
@@ -143,11 +126,16 @@ def playHand(lShoe):#! Each hand
         1] He can exit shoe and player2 starts
         2] He can change the betting
         I will chose it as [2] and bet=balance so all in"""
+        """If player gets stand he does nothn, The dealer must draw cards. If dealer sees total <17 he draw again, else stop. """
         bet=balance
     player=lShoe[0:3:2]# gets index 0 and 2
     dealer=lShoe[1:4:2]# gets index 1 and 3
+
+    for card in lShoe[0:4]:
+        ccount+=askCounting(card)
     del lShoe[:4]  #removing choosen cards
     lastHandBet=bet
+
     if isBlackjack(dealer) and isBlackjack(player):
         tie+=1
         lastHandWon="Tie"
@@ -157,22 +145,25 @@ def playHand(lShoe):#! Each hand
         balance=loseBalance(balance,bet)
         lose+=1
         lastHandWon=False
+        
         return None
 
     elif isBlackjack(player):
         balance=winBalance(balance,bet)
         win+=1
         lastHandWon=True
+        
         return None
     
-    r=response() # Hit or Stand
-    """If player gets stand he does nothn, The dealer must draw cards. If he sees total <17 he draw again, else stop.
-    """
+    # Hit or Stand
+    r=askResponce(player,dealer)            
+    
+
     #Stand case
     if r==0:
         standCase(player,dealer,lShoe,bet)
     if r==1:
-        r= hitCase(player,dealer,lShoe,bet)
+        r=hitCase(player,dealer,lShoe,bet)
         #-------------------------------
         while(r==1):
             r=hitCase(player,dealer,lShoe,bet)
@@ -180,52 +171,101 @@ def playHand(lShoe):#! Each hand
         if r==0:standCase(player,dealer,lShoe,bet)
 
 
+def askCounting(card):#use before pop,del s
+    global icounting,ccount
+    icounting="hilo"
+    counting=icounting.strip()
+    try:
+        counting=int(counting)
+    except ValueError:
+        pass
+    if counting=="hilo":
+        counting=CardCounting.CounterHiLo().count(card)
+        return counting
+    elif counting=="dont":
+        ccount=0
+        return 0
 
+def askResponce(player,dealer):
+    global iresponce,ccount,icounting
+    iresponce="stand16"
+    responce= iresponce.strip()
+    try:
+        responce=int(responce)
+    except ValueError:
+        pass
+    #if icounting=="dont":
+        #pass
+    #else: 
+    #    if ccount>=12:responce="stand15"
+     #   elif ccount>=5:responce="stand16"
+      #  elif ccount>=-5:responce="stand17"
+       # elif ccount>=-12:responce="stand18"
+        #else:responce="stand19"
 
-
-def counting(player,dealer):
-    global ccount
-    ccount+=CardCounting.CounterHiLo().count(player,dealer)
-    
+    if responce=="random":
+        responce=Responces.RandomResponce().decide()
+        return responce
+    elif responce=="stand19":
+        responce=Responces.StandX().decide(player,19)
+        return responce
+    elif responce=="stand18":
+        responce=Responces.StandX().decide(player,18)
+        return responce
+    elif responce=="stand17":
+        responce=Responces.StandX().decide(player,17)
+        return responce
+    elif responce=="stand16":
+        responce=Responces.StandX().decide(player,16)
+        return responce
+    elif responce=="stand15":
+        responce=Responces.StandX().decide(player,15)
+        return responce
+    elif responce=="stand14":
+        responce=Responces.StandX().decide(player,14)
+        return responce
 
 def askBetting():
-    global lastHandWon,lastHandBet
-    strategy="ma" #bet 5
-    strategy=strategy.strip()
-    if strategy.isdigit():#helps to choose strategy 
-        strategy=int(strategy)
+    global lastHandWon,lastHandBet,istrategy, icounting
+    istrategy="5"
+    strategy=istrategy.strip()
 
-    if strategy==5:
-        strategy=BET.Bet5().getBet()#5
+    if icounting=="dont":
+        pass
+    else:
+        if ccount >= 10: return max(1, int(balance * 0.07))
+        elif ccount >= 5: return max(1, int(balance * 0.04))
+        elif ccount >= 2: return max(1, int(balance * 0.02))
+        else: return max(1, int(balance * 0.01))
+
+    if strategy.isdigit():
+        strategy=int(strategy)
+        strategy=BET.BetX().getBet(strategy)#5
         return strategy
-    elif strategy==10:
-        return BET.Bet10().getBet()#5
-    elif strategy==99:
+    elif strategy.endswith("p"):
+        strategy=BET.BetXP().getBet(balance,int(strategy[:-1]))
+        return strategy
+    elif strategy=="full":
         strategy=BET.BetFull(balance).getBet()
         return strategy
     elif strategy=="ma":
         strategy=BET.BetMartingale().getBet(lastHandWon,lastHandBet) 
         return strategy
-    elif strategy=="10P":
-        strategy=BET.Bet10P().getBet(balance)
-        return strategy
-    elif strategy=="20P":
-        return BET.Bet20P().getBet(balance)
-    
 
-    
 
-    
+
+
 if __name__=="__main__":
-    
+    global istrategy,iresponce,icounting
     shoe = [10,2, 3, 4, 10, 5,  "ACE"     ,6, 7, 8, 10, 9, 10] * 4  * 6
 
-    ccount=0
+    
     win=0
     lose=0
     tie=0
     
     balances=[]
+    counts=[]
     times=int(input("How many total shoes you want? "))
     start = time.perf_counter()
     countHands:int =0
@@ -233,6 +273,8 @@ if __name__=="__main__":
         lastHandWon=None
         lastHandBet=None
         balance=100
+        ccount=0
+        icounting="dont"
          #?<-- Each Shoe balance is same
 
         initialbalance=balance
@@ -249,7 +291,8 @@ if __name__=="__main__":
                 break
 
         balances.append(balance)
-    print(f"Balance: {initialbalance}\nWin: {win}, Lose: {lose}, Tie: {tie}\n{win/(lose+tie+win)*100:.8f}%, Total hands: {countHands}")
+        counts.append(ccount)
+    print(f"Balance: {initialbalance}, Betting: {istrategy}, Strategy: {iresponce}, CardCounting: {icounting}\nWin: {win}, Lose: {lose}, Tie: {tie}\n{win/(lose+tie+win)*100:.8f}%, Total hands: {countHands}")
     #for i,num in enumerate(balances, start=1) :
     #    print(f"Player[{i}]: {num}")
     #    pass
@@ -258,6 +301,8 @@ if __name__=="__main__":
     print(f"\n\n Max won: {max(balances)}")
     print(f"Brokes: {sum (1 for x in balances if x<2)}")
     print(f"Time: {end-start:.4f} secs\n")
+
+    
         
 
 
