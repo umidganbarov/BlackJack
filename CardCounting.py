@@ -1,10 +1,8 @@
 class CounterHiLo:
-    def __init__(self):
-        self.number=0
+    def count(self,card):
+        if card in [2,3,4,5,6]:return 1
+        elif card in [7,8,9]:return 0
+        else: return -1
+class Dont():
     def count(self,player,dealer):
-        cards=player+dealer
-        for x in cards:
-            if x in [2,3,4,5,6]:number+=1
-            elif x in [7,8,9]:pass
-            else: number+=1
-        
+        return 0
