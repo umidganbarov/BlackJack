@@ -9,7 +9,7 @@ from statistics import stdev
 import CardCounting
 
 
-def shuffling(lShoe):# shuffles fll deck|input: deck
+def shuffling(lShoe):# shuffles fll deck|input:deck
     rng = random.SystemRandom()
     rng.shuffle(lShoe)
     rng.shuffle(lShoe)
