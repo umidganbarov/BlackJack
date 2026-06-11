@@ -19,17 +19,6 @@ Key Numbers
 
 StatValueUnique configurations1,176Players per configuration26,000Total shoes simulated~30 millionTotal hands simulated~2.5 billionSimulation runtime~9 hours
 
-
-Project Structure
-
-blackjack-simulation/
-├── blackjack_engine.py     # Core game logic (dealing, scoring, dealer AI)
-├── simulator.py            # Runs mass simulations across all configurations
-├── RESULTS.csv             # Full output dataset (1,176 rows × 21 columns)
-├── Blackjack_Report.ipynb  # Data science analysis notebook
-└── README.md
-
-
 What Was Simulated
 
 Gameplay Strategies
