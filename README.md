@@ -54,7 +54,7 @@ blackjack-simulation/
 
 ## 📓 Analysis
 
-Full analysis in [`Blackjack_Report.py`](Blackjack_Report.py) — 8 tests covering card counting, strategy comparison, risk, betting systems, and extreme outcomes.
+Full analysis in [`Blackjack_Report.docx`](Blackjack_Report.docx) — 8 tests covering card counting, strategy comparison, risk, betting systems, and extreme outcomes.
 
 ---
 
@@ -62,7 +62,8 @@ Full analysis in [`Blackjack_Report.py`](Blackjack_Report.py) — 8 tests coveri
 
 ```bash
 pip install pandas numpy matplotlib
-and use directions in Blackjack_Report.py
+and use directions in Blackjack_Report.docx
+codes for plots are in Plot_Codes.py
 ```
 
 ---
