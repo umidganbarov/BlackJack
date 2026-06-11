@@ -54,15 +54,15 @@ blackjack-simulation/
 
 ## 📓 Analysis
 
-Full analysis in [`Blackjack_Report.ipynb`](Blackjack_Report.ipynb) — 8 tests covering card counting, strategy comparison, risk, betting systems, and extreme outcomes.
+Full analysis in [`Blackjack_Report.py`](Blackjack_Report.py) — 8 tests covering card counting, strategy comparison, risk, betting systems, and extreme outcomes.
 
 ---
 
 ## ▶️ How to Run
 
 ```bash
-pip install pandas numpy matplotlib jupyter
-jupyter notebook Blackjack_Report.ipynb
+pip install pandas numpy matplotlib
+and use directions in Blackjack_Report.py
 ```
 
 ---
@@ -73,4 +73,4 @@ jupyter notebook Blackjack_Report.ipynb
 
 ---
 
-*Personal data science project — Monte Carlo simulation meets casino strategy.*
+*Personal Data Science project — Monte Carlo simulation meets casino strategy.*
