@@ -63,7 +63,6 @@ Full analysis in [`Blackjack_Report.docx`](Blackjack_Report.docx) — 8 tests co
 ```bash
 pip install pandas numpy matplotlib
 and use directions in Blackjack_Report.docx
-codes for plots are in Plot_Codes.py
 ```
 
 ---
