@@ -9,7 +9,7 @@ from statistics import stdev
 import CardCounting
 
 
-def shuffling(lShoe):# shuffles fll deck|input:deck
+def shuffling(lShoe):# shuffles fll deck|input: deck
     rng = random.SystemRandom()
     rng.shuffle(lShoe)
     rng.shuffle(lShoe)
@@ -288,7 +288,6 @@ def Main(times2,ibalance2,ibet2,counting2,resp2):
             ans=playHand(lShoe)
             if ans==-1:
                 break
-
         balances.append(balance)
         counts.append(ccount)
     #print(f"Balance: {initialbalance}, Betting: {istrategy}, Strategy: {iresponce}, CardCounting: {icounting}\nWin: {win}, Lose: {lose}, Tie: {tie}\n{win/(lose+tie+win)*100:.8f}%, Total hands: {countHands}")
